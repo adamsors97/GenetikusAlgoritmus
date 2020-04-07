@@ -2,6 +2,7 @@ import time, math, random, bisect, copy
 import datetime as dt
 import gym
 import numpy as np
+import GenExcell as GE
 from pyexcelerate import Workbook
 
 
@@ -152,7 +153,7 @@ def geneticAlgorithm(Game,Mut_Rate,Pop_Count,Max_Gen,Hid_Layers,Discrete = True,
         #         MUTATION_RATE = max(0, min(0.25,MUTATION_RATE + DECAY_RATE))
         print("Generation : %3d |  Avg Fitness : %5.0f  |  Max Fitness : %5.0f  | Max Reward : %5.0f | Decay : %5.3f | Mutation : %5.3f | Layers : " % (gen + 1, genAvgFit, maxFit, maxreward,DECAY_RATE,MUTATION_RATE),Hid_Layers)
         generations.append([gen + 1, genAvgFit, maxFit])
-        pop.createNewGeneration(maxNeuralNet)
+        pop.createNewGeneration()
 
     Etime = dt.datetime.now()
     elapsedtime = int((Etime-Stime).total_seconds()*1000)
@@ -174,33 +175,7 @@ def geneticAlgorithm(Game,Mut_Rate,Pop_Count,Max_Gen,Hid_Layers,Discrete = True,
                         observation = env.reset()
                         break
                 print("Steps taken =", step)
-    def makeExcel(gens):
-        wb = Workbook()
-        ws = wb.new_sheet(f"Genetics_{MUTATION_RATE}")
-        ws.cell("A1").value = Game
-        ws.cell("A2").value = "Genetic Alg"
-        ws.cell("B1").value = "Mutation rate:"
-        ws.cell("B2").value = MUTATION_RATE
-        ws.cell("C1").value = "Generations:"
-        ws.cell("C2").value = MAX_GENERATIONS
-        ws.cell("D1").value = "Population count:"
-        ws.cell("D2").value = POPULATION_COUNT
-        ws.cell("E1").value = "Time(ms):"
-        ws.cell("E2").value = elapsedtime
-        startrow = 4
-        startcol = 2
-        ws[startrow - 1][startcol].value = "Generation"
-        ws[startrow - 1][startcol + 1].value = "Average Fitness"
-        ws[startrow - 1][startcol + 2].value = "Max Fitness"
-        for i in range(len(gens)):
-            for j in range(len(gens[0])):
-                ws[startrow + i][startcol + j].value = gens[i][j]
-        ws[startrow+len(gens)][startcol+1] = col_totals[1]
-        ws[startrow+len(gens)][startcol + 2] = col_totals[2]
-
-        wb.save(f"C:\\Users\\dosha\\Desktop\\ExcelFiles\\GA_{Game}_{dt.datetime.now().strftime('%f')}_{extraString}.xlsx")
-        print("..........Excel file generated..............")
-    makeExcel(generations)
+    # GE.makeExcel(generations,MUTATION_RATE,Game,MAX_GENERATIONS,POPULATION_COUNT,elapsedtime,col_totals,extraString)
     if replayBots == True:
         print("Replaying best performing agents of their generation :")
         replayBestBots(bestNeuralNets, max(1, int(math.ceil(MAX_GENERATIONS / 10.0))), 0.0625)
