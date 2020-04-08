@@ -1,6 +1,7 @@
 import GenetikusAlgoritmus as ga
 from multiprocessing import Pool
 
+# Paraméterek a futtatáshoz
 GAME = 'LunarLander-v2'#'BipedalWalker-v2' #'CartPole-v1' #'LunarLander-v2'
 PopCount = 100
 GenCount = 500
@@ -10,16 +11,17 @@ Discrete = True
 EpCount= 500
 Replay = False
 Decay = False
-rates = [0.001,0.005,0.01,0.05]#0.1,0.250
-test = []
+MutRates = [0.001,0.005,0.01,0.05]#0.1,0.250
+process = []
 
-for i in range(len(rates)):
-    record = (GAME, rates[i], PopCount, GenCount, Layers, Discrete, EpCount, Replay, Decay)
-    test.append(record)
+# Feladat előkészítse különböző paraméterekkel a többfeladatos futtatáshoz
+for i in range(len(MutRates)):
+    p = (GAME, MutRates[i], PopCount, GenCount, Layers, Discrete, EpCount, Replay, Decay)
+    process.append(p)
 
-
+# Feladatok futtatása
 if __name__ == '__main__':
     pool = Pool(processes=4)
-    pool.starmap(ga.geneticAlgorithm, test)
+    pool.starmap(ga.geneticAlgorithm, process)
 
 
