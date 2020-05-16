@@ -1,6 +1,6 @@
 from pyexcelerate import Workbook,Style
 import datetime as dt
-#GAME,MUTATION_RATE,LAYERS,MAX_GENERATIONS,POPULATION_COUNT,ELAPSED_TIME,COL_TOTALS,INFO,GENERATIONS
+
 def makeExcel(result):
     wb = Workbook()
 
@@ -16,11 +16,13 @@ def makeExcel(result):
         GENERATIONS = result[0][i][8]
 
 
-        ws = wb.new_sheet(f"Genetics_{i+1}_{MUTATION_RATE}")
+        sheetname = f"Genetics_{i+1}_{MUTATION_RATE}"
+        ws = wb.new_sheet(f"{i+1}")
         for i in range(6):
             ws.set_col_style(i+1,Style(size=-1))
         ws.cell("A1").value = GAME
         ws.cell("A2").value = "Genetic Alg"
+        ws.cell("A3").value = sheetname
         ws.cell("B1").value = "Mutation rate:"
         ws.cell("B2").value = MUTATION_RATE
         ws.cell("C1").value = "Generations:"
@@ -28,7 +30,10 @@ def makeExcel(result):
         ws.cell("D1").value = "Population count:"
         ws.cell("D2").value = POPULATION_COUNT
         ws.cell("E1").value = "Hidden Layers:"
-        ws.cell("E2").value = f"{LAYERS[0]},{LAYERS[1]},{LAYERS[2]}"
+        lay = ''
+        for i in range(len(LAYERS)):
+            lay += f"{LAYERS[i]}, "
+        ws.cell("E2").value = lay
         ws.cell("F1").value = "Time(ms):"
         ws.cell("F2").value = ELAPSED_TIME
         ws.cell('G1').value = INFO
@@ -45,5 +50,5 @@ def makeExcel(result):
         ws[startrow + len(GENERATIONS)][startcol + 1] = int(COL_TOTALS[1])
         ws[startrow + len(GENERATIONS)][startcol + 2] = int(COL_TOTALS[2])
 
-    wb.save(f"C:\\Users\\dosha\\Desktop\\ExcelFiles\\GA_{dt.datetime.now().strftime('%f')}.xlsx")
+    wb.save(f"C:\\Users\\dosha\\Desktop\\ExcelFiles\\GA_{GAME}_{dt.datetime.now().strftime('%f')}.xlsx")
     print("..........Excel file generated..............")

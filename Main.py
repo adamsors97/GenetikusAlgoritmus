@@ -1,36 +1,41 @@
 import GenetikusAlgoritmus as ga
 from multiprocessing import Pool
-import GenExcell as GE
+import GenExcel as ge
 
 # Paraméterek a futtatáshoz
-GAME = 'LunarLander-v2'#'BipedalWalker-v2' #'CartPole-v1' #'LunarLander-v2'
-PopCount = 10
-GenCount = 1
-Layers = [13,8,13] # 4,2 es 13,8,13
-LayerTest = ([13,8,13],[24],[21,9,21],[24,12])
-Discrete = True
-EpCount= 500
-Replay = False
-Decay = False
-MutRates = [0.001,0.005,0.01,0.05]#0.1,0.250
-process = []
+kornyezet = 'LunarLander-v2'#'BipedalWalker-v2' #'CartPole-v1' #'LunarLander-v2'
+popSzam = 100
+genSzam = 1000
+retegek = [13,8,13] # 4,2 es 13,8,13
+retegTest = ([13,8,13],[24],[21,9,21],[24,12])
+diszkret = True
+epizodSzam= 500
+mutRatak = [0.001,0.005,0.01,0.05]#0.1,0.250
 
+feladatok = []
 # Feladat előkészítse különböző paraméterekkel a többfeladatos futtatáshoz
-for i in range(len(MutRates)):
-    p = (GAME, MutRates[i], PopCount, GenCount, Layers, Discrete, EpCount, Replay, Decay)
-    process.append(p)
+for i in range(len(mutRatak)):
+    p = (kornyezet, mutRatak[i], popSzam, genSzam, retegek, diszkret, epizodSzam)
+    feladatok.append(p)
 
-results = []
+eredmenyek = []
 
 # Feladatok futtatása
 if __name__ == '__main__':
-    pool = Pool(processes=4)
-    results.append(pool.starmap(ga.geneticAlgorithm, process))
+    pool = Pool(process=4)
+    eredmenyek.append(pool.starmap(ga.GenetikusAlgoritmus, feladatok))
     pool.close()
     pool.join()
-    print(results[0][1][1])
-    print('1.dim: ', len(results),', 2.dim: ',len(results[0]),' 3.dim: ',len(results[0][0]))
-    GE.makeExcel(results)
+
+    ge.makeExcel(eredmenyek)
 # Result: - result[]
 #           - result[][] futtatas
 #               -result[][][] parameterek
+# for i in range(len(MutRatak)):
+#     # Paraméterek beállítása egy feladathoz
+#     p = (_kornyezet, MutRatak[i], _populacioSzam, _generacioSzam,
+#                                             _retegek, _diszkret, _epizodSzam)
+#     feladatok.append(p)
+#
+# pool = Pool(feladatokes=4)
+# eredmenyek.append(pool.starmap(ga.genetikusAlgortimus, feladatok))
