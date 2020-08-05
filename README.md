@@ -1,5 +1,6 @@
-# Genetikus Algoritmus Readme - Python - OpenAi Gym
+# Genetikus Algoritmus Readme - Python - OpenAi Gym - 
 
+Gépi tanulás genetikus algoritmussal.
 Feladatok megoldása genetikus algoritmus segítségével.
 
 # Indító fájl :
@@ -11,3 +12,6 @@ Feladatok megoldása genetikus algoritmus segítségével.
 
 ## Excel táblázat készítése a generáció eredményeiről:
 GenExcell.py -> Dokumentálja a paramétereket, eredményeket, futásidőt
+
+# Eredmények:
+https://www.youtube.com/playlist?list=PL3EYt0sURE6BQ1PIrHGmrd5IdSyED0CHG
