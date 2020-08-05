@@ -1,7 +1,7 @@
 # Genetikus Algoritmus Readme - Python - OpenAi Gym - 
 
 Gépi tanulás genetikus algoritmussal.
-Feladatok megoldása genetikus algoritmus segítségével.
+Feladatok megoldása genetikus algoritmus segítségével, multiprocess futtatással.
 
 # Indító fájl :
 **Main.py** -> Ez a fájl indítja a többfeladatos (multiprocess) genetikus algoritmust 
